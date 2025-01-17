@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="https://cdn-icons-png.flaticon.com/512/5562/5562272.png">
+    <title>Special Moments Countdown</title>
+</head>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Dongle&family=Playwrite+DE+Grund:wght@100..400&family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap');
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+    }
+    body {
+        background: linear-gradient(135deg, #ff9a9e, #fad0c4, #fbc2eb);
+        font-family: "Playwrite DE Grund", serif;
+        min-height: 100vh;
+        font-size: 16px; /* Increase base font size */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        overflow: hidden; /* Hide overflow for floating hearts */
+    }
+    .df {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .wrapper {
+        flex-direction: column;
+        width: 100%;
+        height: 100vh; /* Ensure full height */
+        overflow: auto; /* Ensure content is scrollable */
+    }
+    .topWrapper, .bottomWrapper {
+        flex-direction: row;
+        margin: 20px 0 20px 0;
+    }
+    .bottomWrapper {
+        justify-content: space-between;
+    }
+    .bottomWrapper .containerLeft, .bottomWrapper .containerRight {
+        margin-bottom: 20px; /* Add space between bottom containers */
+    }
+    .containerLeft, .containerRight {
+        flex-direction: column;
+    }
+    .wrapCard {
+        flex-direction: row;
+    }
+    .numberCard {
+        margin: 1px;
+        border: solid #8b4513 5px; /* Dark brown border */
+        border-radius: 15px;
+        width: 100px;
+        height: 100px;
+        background: rgba(255, 255, 255, 0.8); /* Light background */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+    .glassmorphism {
+        background: rgba(255, 255, 255, 0.4); /* Light brown background */
+        box-shadow: 0 8px 32px 0 rgba(139, 69, 19, 0.37); /* Dark brown shadow */
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        padding: 10px;
+        background-image: url('https://www.transparenttextures.com/patterns/food.png'); /* Add pattern */
+    }
+    .numberCard.glassmorphism {
+        background: rgba(0, 0, 0, 0.0);
+        box-shadow: 0 2px 5px 0 rgba(139, 69, 19, 0.37); /* Dark brown shadow */
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-radius: 20px;
+        border: 2px solid rgba(255, 255, 255, 0.18);
+        padding: 10px;
+    }
+    .wSize {
+        width: 950px;
+    }
+    span {
+        font-weight: 900;
+        font-size: 1.2em; /* Increase font size for span elements */
+        color: #8b4513; /* Dark brown color */
+    }
+    .timeInd {
+        font-weight: 500;
+        font-family: "Sour Gummy", serif;
+        font-size: 2.2em; /* Increase font size for time indicators */
+        color: #8b4513; /* Dark brown color */
+    }
+    .numberCard {
+        text-align: center;
+        margin: 0 2px 0 2px;
+    }
+    .imgCircle img {
+        width: 250px;
+        height: 250px;
+        border: 5px dotted #deb887; /* Light brown border */
+        border-radius: 50%;
+    }
+    .desc {
+        font-size: 1.5em;
+        margin: 0 0 5px 0;
+        color: #8b4513; /* Dark brown color */
+    }
+    #hYear, #mYear {
+        font-weight: 600;
+        font-size: 1em; /* Increase font size for span elements */
+        color: #8b4513; /* Dark brown color */
+    }
+    footer {
+        margin-top: 30px;
+        font-size: 1.5em;
+        color: #8b4513; /* Dark brown color */
+        text-align: center;
+    }
+    .decorative-element {
+        z-index: -1;
+        position: absolute;
+        width: 38px;
+        height: 38px;
+        background: #ff6f61;
+        transform: rotate(-45deg);
+        animation: float 6s ease-in-out infinite;
+    }
+    .decorative-element::before,
+    .decorative-element::after {
+        content: "";
+        position: absolute;
+        width: 38px;
+        height: 38px;
+        background: #ff6f61;
+        border-radius: 50%;
+    }
+    .decorative-element::before {
+        top: -25px;
+        left: 0;
+    }
+    .decorative-element::after {
+        top: 0;
+        left: 25px;
+    }
+    .decorative-element:nth-child(1) {
+        top: 10%;
+        left: 20%;
+        animation-delay: 0s;
+    }
+    .decorative-element:nth-child(2) {
+        top: 30%;
+        left: 80%;
+        animation-delay: 2s;
+    }
+    .decorative-element:nth-child(3) {
+        top: 65%;
+        left: 50%;
+        animation-delay: 4s;
+    }
+    .decorative-element:nth-child(4) {
+        top: 70%;
+        left: 10%;
+        animation-delay: 6s;
+    }
+    .decorative-element:nth-child(5) {
+        top: 20%;
+        left: 60%;
+        animation-delay: 8s;
+    }
+    @keyframes float {
+        0% {
+            transform: translateY(0) rotate(-45deg);
+        }
+        50% {
+            transform: translateY(-40px) rotate(-35deg);
+        }
+        75% {
+            transform: translateY(-40px) rotate(-65deg);
+        }
+        100% {
+            transform: translateY(0) rotate(-45deg);
+        }
+    }
+    @media (max-width: 768px) {
+        body {
+            font-size: 10px;
+            text-align: center;
+        }
+        .wrapper {
+            height: auto;
+            padding: 10px;
+            overflow: auto; /* Ensure content is scrollable */
+        }
+        .wSize {
+            width: 100%;
+            padding: 10px;
+        }
+        .topWrapper, .bottomWrapper {
+            flex-direction: column;
+            margin: 10px 0;
+        }
+        .containerLeft, .containerRight {
+            width: 100%;
+        }
+        .numberCard {
+            width: 85px;
+            height: 85px;
+        }
+        .imgCircle img {
+            width: 200px;
+            height: 200px;
+        }
+        span {
+            font-weight: 900;
+            font-size: 1.2em; /* Increase font size for span elements */
+            color: #8b4513; /* Dark brown color */
+        }
+        .timeInd {
+            font-weight: 500;
+            font-family: "Sour Gummy", serif;
+            font-size: 2.2em; /* Increase font size for time indicators */
+            color: #8b4513; /* Dark brown color */
+        }
+        .decorative-element:nth-child(1) {
+            top: 10%;
+            left: 20%;
+            animation-delay: 0s;
+        }
+        .decorative-element:nth-child(2) {
+            top: 30%;
+            left: 10%;
+            animation-delay: 2s;
+        }
+        .decorative-element:nth-child(3) {
+            top: 55%;
+            left: 50%;
+            animation-delay: 4s;
+        }
+        .decorative-element:nth-child(4) {
+            top: 70%;
+            left: 10%;
+            animation-delay: 6s;
+        }
+        .decorative-element:nth-child(5) {
+            top: 20%;
+            left: 75%;
+            animation-delay: 8s;
+        }
+    }
+    @media (max-width: 480px) {
+        body {
+            font-size: 8px;
+            text-align: center;
+        }
+        .wrapper {
+            height: auto;
+            padding: 5px;
+            overflow: auto; /* Ensure content is scrollable */
+        }
+        .wSize {
+            width: 100%;
+            padding: 5px;
+        }
+        .topWrapper, .bottomWrapper {
+            flex-direction: column;
+            margin: 5px 0;
+        }
+        .containerLeft, .containerRight {
+            width: 100%;
+        }
+        .numberCard {
+            width: 70px;
+            height: 70px;
+        }
+        .imgCircle img {
+            width: 150px;
+            height: 150px;
+        }
+        span {
+            font-weight: 900;
+            font-size: 1em; /* Increase font size for span elements */
+            color: #8b4513; /* Dark brown color */
+        }
+        .timeInd {
+            font-weight: 500;
+            font-family: "Sour Gummy", serif;
+            font-size: 1.8em; /* Increase font size for time indicators */
+            color: #8b4513; /* Dark brown color */
+        }
+        .decorative-element:nth-child(1) {
+            top: 10%;
+            left: 20%;
+            animation-delay: 0s;
+        }
+        .decorative-element:nth-child(2) {
+            top: 30%;
+            left: 10%;
+            animation-delay: 2s;
+        }
+        .decorative-element:nth-child(3) {
+            top: 55%;
+            left: 50%;
+            animation-delay: 4s;
+        }
+        .decorative-element:nth-child(4) {
+            top: 70%;
+            left: 10%;
+            animation-delay: 6s;
+        }
+        .decorative-element:nth-child(5) {
+            top: 20%;
+            left: 75%;
+            animation-delay: 8s;
+        }
+    }
+</style>
+
+<body>
+    <div class="decorative-element"></div>
+    <div class="decorative-element"></div>
+    <div class="decorative-element"></div>
+    <div class="decorative-element"></div>
+    <div class="decorative-element"></div>
+
+    <div class="wrapper df">
+        <div class="imgCircle">
+            <img src="./cute.gif" alt="Cute Cat like You">
+        </div>
+        <div class="wSize topWrapper glassmorphism df">
+            <div class="container">
+                <p class="desc">The Moment Our Words Intertwined For The First Time.</p>
+                <div class="wrapCard df">
+                    <div class="numberCard glassmorphism"><p class="timeInd" id="Y1">00</p><span>Years</span></div>
+                    <div class="numberCard glassmorphism"><p class="timeInd" id="D1">00</p><span>Days</span></div>
+                    <div class="numberCard glassmorphism"><p class="timeInd" id="H1">00</p><span>Hours</span></div>
+                    <div class="numberCard glassmorphism"><p class="timeInd" id="M1">00</p><span>Minutes</span></div>
+                    <div class="numberCard glassmorphism"><p class="timeInd" id="S1">00</p><span>Seconds</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="wSize bottomWrapper df">
+            <div class="containerLeft glassmorphism df">
+                <p class="desc">Your <span id="hYear"></span>th Chapter's Start.</p>
+                <div class="wrapCard df">
+                    <div class="numberCard glassmorphism"><p class="timeInd" id="D2">00</p><span>Days</span></div>
+                    <div class="numberCard glassmorphism"><p class="timeInd" id="H2">00</p><span>Hours</span></div>
+                    <div class="numberCard glassmorphism"><p class="timeInd" id="M2">00</p><span>Minutes</span></div>
+                    <div class="numberCard glassmorphism"><p class="timeInd" id="S2">00</p><span>Seconds</span></div>
+                </div>
+            </div>
+            <div class=" containerRight glassmorphism df">
+                <p class="desc">My <span id="mYear"></span>th Chapter's Start.</p>
+                <div class="wrapCard df">
+                    <div class="numberCard glassmorphism"><p class="timeInd" id="D3">00</p><span>Days</span></div>
+                    <div class="numberCard glassmorphism"><p class="timeInd" id="H3">00</p><span>Hours</span></div>
+                    <div class="numberCard glassmorphism"><p class="timeInd" id="M3">00</p><span>Minutes</span></div>
+                    <div class="numberCard glassmorphism"><p class="timeInd" id="S3">00</p><span>Seconds</span></div>
+                </div>
+            </div>
+        </div>
+        <p>Made With &#x2665;&#xfe0f; By Am :)</p>
+    </div>
+    <script>
+        const currentYear = new Date().getFullYear();           
+        const myBirthday = `${currentYear}-09-19T00:00:00`;     // {TUKAR} dengan tarikh lahir anda
+        const herBirthday = `${currentYear}-08-29T00:00:00`;    // {TUKAR} dengan tarikh lahir pasangan anda
+        const firstContact = "2023-11-23T00:00:00";             // {TUKAR} dengan tarikh pertama kali berkenalan
+
+        const herYOB = currentYear - 2007; 
+        const myYOB = currentYear - 2006 ;
+
+        document.getElementById("hYear").textContent = String(herYOB).padStart(2, "0");
+        document.getElementById("mYear").textContent = String(myYOB).padStart(2, "0");
+
+        const myBirthdayDate = new Date(myBirthday);
+        const herBirthdayDate = new Date(herBirthday);
+        const firstContactDate = new Date(firstContact);
+
+        function updateCountdown() {
+            const now = new Date();
+            // Update countup for first contact
+            updateSingleCountup(now, firstContactDate, "Y1", "D1", "H1", "M1", "S1");
+
+            // Update countdown for her birthday
+            updateSingleCountdown(now, herBirthdayDate, "D2", "H2", "M2", "S2");
+            
+            // Update countdown for my birthday
+            updateSingleCountdown(now, myBirthdayDate, "D3", "H3", "M3", "S3");
+        }
+
+        function updateSingleCountdown(now, targetDate, daysId, hoursId, minutesId, secondsId) {
+            const diff = targetDate - now;
+
+            if (diff <= 0) {
+                document.getElementById(daysId).textContent = "00";
+                document.getElementById(hoursId).textContent = "00";
+                document.getElementById(minutesId).textContent = "00";
+                document.getElementById(secondsId).textContent = "00";
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById(daysId).textContent = String(days).padStart(2, "0");
+            document.getElementById(hoursId).textContent = String(hours).padStart(2, "0");
+            document.getElementById(minutesId).textContent = String(minutes).padStart(2, "0");
+            document.getElementById(secondsId).textContent = String(seconds).padStart(2, "0");
+        }
+
+        function updateSingleCountup(now, startDate, yearsId, daysId, hoursId, minutesId, secondsId) {
+            const diff = now - startDate;
+
+            if (diff <= 0) {
+                document.getElementById(yearsId).textContent = "00";
+                document.getElementById(daysId).textContent = "00";
+                document.getElementById(hoursId).textContent = "00";
+                document.getElementById(minutesId).textContent = "00";
+                document.getElementById(secondsId).textContent = "00";
+                return;
+            }
+
+            const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365));
+            const days = Math.floor((diff % (1000 * 60 * 60 * 24 * 365)) / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById(yearsId).textContent = String(years).padStart(2, "0");
+            document.getElementById(daysId).textContent = String(days).padStart(2, "0");
+            document.getElementById(hoursId).textContent = String(hours).padStart(2, "0");
+            document.getElementById(minutesId).textContent = String(minutes).padStart(2, "0");
+            document.getElementById(secondsId).textContent = String(seconds).padStart(2, "0");
+        }
+
+        setInterval(updateCountdown, 1000);
+
+    </script>
+</body>
+</html>
